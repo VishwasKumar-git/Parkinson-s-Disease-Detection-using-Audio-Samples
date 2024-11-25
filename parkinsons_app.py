@@ -13,9 +13,13 @@ from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 
 # Constants
-RECORDING_PATH = "recorded_audio.wav"
-UPLOAD_PATH = "uploaded_audio.wav"
-UPLOAD_DIR = "AudioFile"
+RECORDING_PATH = "AudioFiles/recorded_audio.wav"
+UPLOAD_PATH = "AudioFiles/uploaded_audio.wav"
+UPLOAD_DIR = "AudioFiles"
+
+# Ensure the directory exists
+if not os.path.exists(UPLOAD_DIR):
+    os.makedirs(UPLOAD_DIR)
 
 # Function to load the model and scaler
 def load_model(file_path):
@@ -26,9 +30,8 @@ def load_model(file_path):
         return None
 
 # Load ML model and scaler
-model = joblib.load('xgb_clf_new.joblib')
-scaler = joblib.load('scaler.joblib')
-
+model = joblib.load('models/xgb_clf_new.joblib')
+scaler = joblib.load('models/scaler.joblib')
 
 # Feature extraction function
 def extract_features(file_path):
@@ -86,12 +89,15 @@ def extract_features(file_path):
 
 # Function to save uploaded file
 def save_uploaded_file(uploadedfile):
-    if not os.path.exists(UPLOAD_DIR):
-        os.makedirs(UPLOAD_DIR)
-    file_path = os.path.join(UPLOAD_DIR, uploadedfile.name)
-    with open(file_path, "wb") as f:
-        f.write(uploadedfile.getbuffer())
-    return file_path
+    try:
+        file_path = os.path.join(UPLOAD_DIR, uploadedfile.name)
+        with open(file_path, "wb") as f:
+            f.write(uploadedfile.getbuffer())
+        #st.success(f"File saved successfully at: {file_path}")
+        return file_path
+    except Exception as e:
+        #st.error(f"Error saving uploaded file: {e}")
+        return None
 
 # Voice recording function
 def record_voice(duration=5, samplerate=44100):
@@ -100,35 +106,27 @@ def record_voice(duration=5, samplerate=44100):
         audio_data = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='int16')
         sd.wait()
         write(RECORDING_PATH, samplerate, audio_data)
-        st.success("Recording completed!")
+        st.success(f"Recording saved successfully at: {RECORDING_PATH}")
     except Exception as e:
         st.error(f"Error during recording: {e}")
-
-# Scaling features between -1 and 1 for normalization
-scaler = MinMaxScaler((-1,1))
 
 # Streamlit app layout
 st.set_page_config(page_title="Parkinson's Disease Detection", layout="wide", initial_sidebar_state="expanded")
 st.title("🧠 Parkinson's Disease Detection from Voice")
-st.markdown("""
-Analyze voice recordings to detect the likelihood of Parkinson's disease. 
-This tool uses machine learning and voice feature analysis.
-""")
+st.markdown("""Analyze voice recordings to detect the likelihood of Parkinson's disease using machine learning.""")
 
 # Option for recording or uploading voice
 option = st.radio("Choose Input Method", ("Upload an Audio File", "Record Voice"))
 
 # Inputs for age and gender
-age = st.number_input("Enter your age", min_value=1, max_value=120, value=30)
-gender = st.selectbox("Select your gender", ("Male", "Female"))
+# age = st.number_input("Enter your age", min_value=1, max_value=120, value=30)
+# gender = st.selectbox("Select your gender", ("Male", "Female"))
 
 if option == "Upload an Audio File":
     uploaded_file = st.file_uploader("Upload a voice recording (.wav or .mp3)", type=["wav", "mp3"])
     if uploaded_file:
-        with open(UPLOAD_PATH, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        st.audio(UPLOAD_PATH, format="audio/wav")
-        audio_path = UPLOAD_PATH
+        audio_path = save_uploaded_file(uploaded_file)
+        st.audio(audio_path, format="audio/wav")
 elif option == "Record Voice":
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -157,7 +155,7 @@ if 'audio_path' in locals() and os.path.exists(audio_path):
             try:
                 # Prepare feature data for scaling
                 feature_array = np.array(list(features.values())).reshape(1, -1)
-                scaled_features = scaler.fit_transform(feature_array)
+                scaled_features = scaler.transform(feature_array)
                 
                 # Predict with model
                 prediction = model.predict(scaled_features)[0]
@@ -179,7 +177,6 @@ if 'audio_path' in locals() and os.path.exists(audio_path):
             st.warning("Feature extraction failed.")
     else:
         st.warning("Model or scaler file is missing! Prediction is not available.")
-
 
 # Footer
 st.markdown("---")
