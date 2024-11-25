@@ -83,7 +83,7 @@ A **Streamlit** app was created to make the solution accessible and interactive.
    ```
 3. Run the Streamlit app:
    ```bash
-   streamlit run app.py
+   streamlit run parkinsons_app.py
    ```
 
 ---
