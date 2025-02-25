@@ -100,8 +100,8 @@ def save_uploaded_file(uploadedfile):
         return None
 
 # Voice recording function
-def record_voice(duration=5, samplerate=44100):
-    st.info("Recording for 5 seconds... Speak now! (Prolonged enunciation of the vowel /a/)")
+def record_voice(duration=3, samplerate=44100):
+    st.info("Recording for 3 seconds... Speak now! (Prolonged enunciation of the vowel /a/)")
     try:
         audio_data = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='int16')
         sd.wait()
