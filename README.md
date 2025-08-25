@@ -24,17 +24,17 @@ Dataset: UCI Parkinson’s Dataset
 
 ⚙️ Installation & Setup
 
-1. Clone the repository
-git clone https://github.com/VishwasKumar-git/Parkinson-s-Disease-Detection-using-Audio-Samples.git
+1. Clone the repository <br>
+git clone https://github.com/VishwasKumar-git/Parkinson-s-Disease-Detection-using-Audio-Samples.git <br>
 cd Parkinson-s-Disease-Detection-using-Audio-Samples
 
-2. Create a virtual environment (recommended)
-    python -m venv venv
-    source venv/bin/activate   # for Linux/Mac
-    venv\Scripts\activate      # for Windows
+2. Create a virtual environment (recommended) <br>
+    python -m venv venv <br>
+    source venv/bin/activate   # for Linux/Mac <br>
+    venv\Scripts\activate      # for Windows <br>
    
-3. Run the Streamlit app
-   streamlit run app.py
+3. Run the Streamlit app <br>
+   streamlit run app.py 
 
 
 
