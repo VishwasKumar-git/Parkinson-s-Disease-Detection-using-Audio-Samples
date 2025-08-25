@@ -20,3 +20,22 @@ Frontend: Streamlit
 Backend / ML: Python, Scikit-learn / TensorFlow / PyTorch (depending on your implementation)
 Libraries: NumPy, Pandas, Matplotlib, Librosa (if audio features), Joblib/Pickle (for saving model)
 Dataset: UCI Parkinson’s Dataset
+
+
+⚙️ Installation & Setup
+
+1. Clone the repository
+git clone https://github.com/VishwasKumar-git/Parkinson-s-Disease-Detection-using-Audio-Samples.git
+cd Parkinson-s-Disease-Detection-using-Audio-Samples
+
+2. Create a virtual environment (recommended)
+    python -m venv venv
+    source venv/bin/activate   # for Linux/Mac
+    venv\Scripts\activate      # for Windows
+   
+3. Run the Streamlit app
+   streamlit run app.py
+
+
+
+
