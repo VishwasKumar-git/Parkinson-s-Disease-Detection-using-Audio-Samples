@@ -1,13 +1,12 @@
-🧠 Parkinson’s Disease Prediction using AI/ML
-📌 Overview
+🧠 Parkinson’s Disease Prediction using AI/ML <br>
 
+📌 Overview <br>
 This project aims to predict Parkinson’s Disease from patient voice/audio samples using Machine Learning techniques.
 The system analyzes extracted features from audio recordings and classifies whether the person is likely to have Parkinson’s Disease.
-
 The project also includes a Streamlit-based web app where users can upload their audio sample (or input features) and instantly receive predictions.
 
 
-🚀 Features
+🚀 Features <br>
 🎤 Audio-based Prediction – Uses ML models to detect Parkinson’s disease.
 📊 Data Processing & Feature Extraction – Includes preprocessing and feature engineering.
 🤖 Machine Learning Model – Trained on medical/audio datasets.
@@ -15,7 +14,7 @@ The project also includes a Streamlit-based web app where users can upload their
 📈 Performance Metrics – Model evaluated using accuracy, precision, recall, and F1-score.
 
 
-🛠️ Tech Stack
+🛠️ Tech Stack <br>
 Frontend: Streamlit
 Backend / ML: Python, Scikit-learn / TensorFlow / PyTorch (depending on your implementation)
 Libraries: NumPy, Pandas, Matplotlib, Librosa (if audio features), Joblib/Pickle (for saving model)
